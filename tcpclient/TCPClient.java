@@ -18,7 +18,9 @@ public class TCPClient {
         Socket socket = new Socket(hostname, port);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         //Timeout
-        socket.setSoTimeout(this.timeout); 
+        if(this.timeout != null){
+            socket.setSoTimeout(this.timeout); 
+        }
         //Writes data to server
         socket.getOutputStream().write(toServerBytes);
         //Receives data from server
