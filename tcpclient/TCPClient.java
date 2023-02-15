@@ -23,6 +23,9 @@ public class TCPClient {
         }
         //Writes data to server
         socket.getOutputStream().write(toServerBytes);
+        if(this.shutdown == true){
+            socket.shutdownOutput();
+        }
         //Receives data from server
         InputStream in = socket.getInputStream();
         //If shutdown argument is true from function call - Close and exit
