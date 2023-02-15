@@ -31,18 +31,24 @@ public class TCPClient {
             socket.close();
             System.exit(1);
         }
-        //Write data from server to a dynamic buffer and then return it as a byte array
-        boolean foo = true;
-        while(foo){
-            out.write(in.read()); //Writes each byte
-            //If the size of current buffer is limit -> Set foo false -> Exit loop
-            //If there are no available bytes in inputstream -> Set foo false -> Exit loop
-            if(Objects.equals(out.size(), this.limit) || in.available() == 0){
-                foo = false;
+        byte[] buffer = new byte[1];
+        try{
+            
+            int i;
+            while((i = in.read(buffer)) != -1){ //read data until end of stream (-1)
+                //Write data from server to a dynamic buffer and then return it as a byte array
+                out.write(buffer);
+                //if out buffer is the same size as our limit -> break and return
+                if(Objects.equals(out.size(), this.limit)){
+                    break;
+                }
             }
+            socket.close();
+            return out.toByteArray();
         }
-        socket.close();
-        return out.toByteArray();
+        catch(SocketTimeoutException e){
+            socket.close();
+            return out.toByteArray();
+        }
         }
     }
-
