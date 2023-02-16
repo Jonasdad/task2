@@ -29,11 +29,6 @@ public class TCPClient {
         //Receives data from server
         InputStream in = socket.getInputStream();
         //If shutdown argument is true from function call - Close and exit
-        if(this.shutdown == true){
-            System.out.println("Shutdown is true. Closing connection");
-            socket.close();
-            System.exit(1);
-        }
         byte[] buffer = new byte[1];
         try{
             
